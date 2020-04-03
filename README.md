@@ -9,8 +9,6 @@ Obiecte
     RefrigeratedTuck
     LargeTruck
     
-    TruckHistory
-    
     Shipping
     FinishedShipping
     InProgressShipping
@@ -22,22 +20,25 @@ Obiecte
     
     Cargo
     
-    TruckDriver
+    Route
+    
+    RequestResponse
     
  -
 
 Actiuni:
  -
-    cargoClassifier
-    scheduleTransport
-    findAvailableTruck
-    calculateShippingCosts
-    setShippingPrice
-    getShippingInfo
-    calculateLastCashFlow
-    showTruckHistory
-    listNextMonthExpireITPTrucks
-    sendTruckToService
-    calculateShippingKM
-     
+    Add a new truck
+    List available trucks
+    Add a new route
+    Check if route exists
+    Show company's profit
+    List finished shipping
+    Schedule shipping
+    
+    Calculate price for a shipping
+    Make a shipping request
+    
+    Alert schedule that shipping is finished
+    Alert schedule for unexpected shipping cost
  -
