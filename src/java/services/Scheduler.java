@@ -1,10 +1,13 @@
+package services;
+
+import entity.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 public class Scheduler implements Serializable {
 
@@ -23,7 +26,72 @@ public class Scheduler implements Serializable {
     private List<FinishedShipping> finishedShippings;
 
     HashMap<String, Boolean> availableTrucks;
-//    private constructor
+
+    public HashMap<String, Boolean> getAvailableTrucks() {
+        return availableTrucks;
+    }
+
+    public List<NormalTruck> getNormalTrucks() {
+        return normalTrucks;
+    }
+
+    public List<RefrigeratedTruck> getRefrigeratedTrucks() {
+        return refrigeratedTrucks;
+    }
+
+    public List<LargeTruck> getLargeTrucks() {
+        return largeTrucks;
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public List<RequestedShipping> getRequestedShippings() {
+        return requestedShippings;
+    }
+
+    public List<InProgressShipping> getInProgressShippings() {
+        return inProgressShippings;
+    }
+
+    public List<FinishedShipping> getFinishedShippings() {
+        return finishedShippings;
+    }
+
+    public void setNormalTrucks(List<NormalTruck> normalTrucks) {
+        this.normalTrucks = normalTrucks;
+    }
+
+    public void setRefrigeratedTrucks(List<RefrigeratedTruck> refrigeratedTrucks) {
+        this.refrigeratedTrucks = refrigeratedTrucks;
+    }
+
+    public void setLargeTrucks(List<LargeTruck> largeTrucks) {
+        this.largeTrucks = largeTrucks;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
+    }
+
+    public void setRequestedShippings(List<RequestedShipping> requestedShippings) {
+        this.requestedShippings = requestedShippings;
+    }
+
+    public void setInProgressShippings(List<InProgressShipping> inProgressShippings) {
+        this.inProgressShippings = inProgressShippings;
+    }
+
+    public void setFinishedShippings(List<FinishedShipping> finishedShippings) {
+        this.finishedShippings = finishedShippings;
+    }
+
+    public void setAvailableTrucks(HashMap<String, Boolean> availableTrucks) {
+        this.availableTrucks = availableTrucks;
+    }
+
+    //    private constructor
     private Scheduler() {
 //        prevent from the reflection api
         if (sScheduler != null) {
@@ -43,7 +111,7 @@ public class Scheduler implements Serializable {
         this.availableTrucks = new HashMap<>();
     }
 
-    static Scheduler getInstance() {
+    public static Scheduler getInstance() {
         if (sScheduler == null) {
             synchronized (Scheduler.class) {
                 if (sScheduler == null) sScheduler = new Scheduler();
@@ -56,7 +124,7 @@ public class Scheduler implements Serializable {
         return getInstance();
     }
 
-    protected void addNewTruck(Truck truck, int type) {
+    public void addNewTruck(Truck truck, int type) {
         switch (type) {
             case 1:
                 this.normalTrucks.add(new NormalTruck(truck.getRegistrationNumber(), truck.getManufacturingYear()));
@@ -74,7 +142,7 @@ public class Scheduler implements Serializable {
     }
 
 
-    protected void listAvailableTrucks() {
+    public void listAvailableTrucks() {
         if (!this.normalTrucks.isEmpty()) {
             System.out.println("Normal trucks:");
             for (NormalTruck truck: this.normalTrucks) {
@@ -103,7 +171,7 @@ public class Scheduler implements Serializable {
         }
     }
 
-    protected void addNewRoute(Route route) {
+    public void addNewRoute(Route route) {
 //        First check if route already exists, if yes, then update distance, else add route to list
         if (this.routes.contains(route)) {
             for (int i = 0; i < this.routes.size(); i++) {
@@ -116,7 +184,7 @@ public class Scheduler implements Serializable {
         }
     }
 
-    protected boolean checkIfRouteExists(Route route) {
+    public boolean checkIfRouteExists(Route route) {
         return this.routes.contains(route);
     }
 
@@ -146,17 +214,17 @@ public class Scheduler implements Serializable {
         return dist * pricePerKm;
     }
 
-    protected double calculateShippingPrice(Cargo cargo) {
+    public double calculateShippingPrice(Cargo cargo) {
         double costs = calculateShippingCosts(cargo);
         return costs + costs * minProfit;
     }
 
-    protected RequestResponse acceptShippingRequest(ShippingRequest request) {
+    public RequestResponse acceptShippingRequest(ShippingRequest request) {
         if (checkIfRouteExists(request.getCargo().getRoute())) {
-            double price = calculateShippingPrice(request.cargo);
+            double price = calculateShippingPrice(request.getCargo());
             if (price <= request.getBid()) {
-                double costs = calculateShippingCosts(request.cargo);
-                RequestedShipping shipping = new RequestedShipping(request.cargo, costs, request.bid);
+                double costs = calculateShippingCosts(request.getCargo());
+                RequestedShipping shipping = new RequestedShipping(request.getCargo(), costs, request.getBid());
                 this.requestedShippings.add(shipping);
                 return new RequestResponse(shipping.getUuid(), true);
             } else {
@@ -167,7 +235,7 @@ public class Scheduler implements Serializable {
         }
     }
 
-    protected String ShippingIsFinished(String uuid) {
+    public String ShippingIsFinished(String uuid) {
 //        if uuid is valid then it will return registration number of the truck, is useful for new configuration
         String registrationNumber = "";
         int pos = 0;
@@ -178,7 +246,7 @@ public class Scheduler implements Serializable {
                 LocalDateTime now = LocalDateTime.now();
                 InProgressShipping finishedShipping = inProgressShippings.get(i);
                 pos = i;
-                this.finishedShippings.add(new FinishedShipping(finishedShipping.getCargo(), finishedShipping.getEstimatedCosts(), finishedShipping.getShippingBid(), dtf.format(now), finishedShipping.getUnexpectedCosts()));
+                this.finishedShippings.add(new FinishedShipping(finishedShipping.getCargo(), finishedShipping.getEstimatedCosts(), finishedShipping.getShippingBid(), finishedShipping.getUnexpectedCosts(), dtf.format(now)));
             }
         }
         if (registrationNumber != "") {
@@ -187,11 +255,11 @@ public class Scheduler implements Serializable {
         return registrationNumber;
     }
 
-    protected void markTruckAsAvailable(String registrationNumber) {
+    public void markTruckAsAvailable(String registrationNumber) {
         this.availableTrucks.put(registrationNumber, true);
     }
 
-    protected boolean updateShippingCost(String uuid, double cost) {
+    public boolean updateShippingCost(String uuid, double cost) {
         boolean res = false;
         for (int i = 0; i < this.inProgressShippings.size(); i++) {
             if (this.inProgressShippings.get(i).getUuid().equals(uuid)) {
@@ -202,7 +270,7 @@ public class Scheduler implements Serializable {
         return res;
     }
 
-    protected double calculateProfit() {
+    public double calculateProfit() {
         double res = 0;
         for (int i = 0; i < this.finishedShippings.size(); i++) {
             res = res + this.finishedShippings.get(i).getFinalProfit();
@@ -210,7 +278,7 @@ public class Scheduler implements Serializable {
         return res;
     }
 
-    protected void listFinishedShippingsMonth() {
+    public void listFinishedShippingsMonth() {
         for (int i = 0; i < this.finishedShippings.size(); i++) {
             System.out.println(this.finishedShippings.get(i));
         }
@@ -257,7 +325,7 @@ public class Scheduler implements Serializable {
 
     }
 
-    protected RequestResponse scheduleShipping(String uuid) {
+    public RequestResponse scheduleShipping(String uuid) {
         int pos = 0;
         boolean res = false;
         String newUuid = "";

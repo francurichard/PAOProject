@@ -1,3 +1,5 @@
+package entity;
+
 import java.util.Scanner;
 
 public class ShippingRequest {
@@ -39,4 +41,7 @@ public class ShippingRequest {
         setCargo(cargo);
     }
 
+    public String toCsv() {
+        return this.cargo.toCsv() + "," + this.bid;
+    }
 }

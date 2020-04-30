@@ -1,5 +1,7 @@
+package entity;
+
 public class LargeTruck extends Truck{
-    static double pricePerKm = 10.00;
+    public static double pricePerKm = 10.00;
     static int servicePeriod = 9; // months
 
     public LargeTruck(String registrationNumber, int manufacturingYear) {

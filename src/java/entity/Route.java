@@ -1,3 +1,5 @@
+package entity;
+
 import java.util.Scanner;
 
 public class Route {
@@ -56,6 +58,10 @@ public class Route {
             this.dist = sc.nextDouble();
             sc.nextLine();
         }
+    }
+
+    public String toCsv() {
+        return this.city1 + "," + this.city2 + "," + this.dist;
     }
 
 }

@@ -1,0 +1,4 @@
+type,uuid,weight,required refrigerated transport,city1,city2,dist,estimated costs,shipping bid,request date, expiration date, truck registration number,unexpected costs,final profit, final costs, date
+2,7d45f650-b62f-4f34-9dd4-795dae2ed67e,300,false,Bucuresti,Bacau,0.0,2400.0,3000.0,,,,,2400.0,600.0,2020/04/30
+2,461fbfb6-75b4-471a-9ec2-1093d3f5e4c0,300,false,Bucuresti,Bacau,0.0,2400.0,3000.0,,,,,2400.0,600.0,2020/04/30
+2,07b91602-8d3d-4eb8-9cb5-696267db66b6,300,false,Bacau,Bucuresti,0.0,2400.0,3000.0,,,,,2400.0,600.0,2020/04/30

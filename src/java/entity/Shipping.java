@@ -1,3 +1,5 @@
+package entity;
+
 import java.util.UUID;
 
 public class Shipping {
@@ -11,6 +13,13 @@ public class Shipping {
         this.estimatedCosts = estimatedCosts;
         this.shippingBid = shippingBid;
         this.uuid = UUID.randomUUID().toString();
+    }
+
+    public Shipping(String uuid, Cargo cargo, double estimatedCosts, double shippingBid) {
+        this.uuid = uuid;
+        this.cargo = cargo;
+        this.estimatedCosts = estimatedCosts;
+        this.shippingBid = shippingBid;
     }
 
     public String getUuid() {
@@ -32,4 +41,5 @@ public class Shipping {
     public double getShippingProfit() {
         return this.shippingBid - this.estimatedCosts;
     }
+
 }

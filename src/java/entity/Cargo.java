@@ -1,3 +1,5 @@
+package entity;
+
 import java.util.Scanner;
 
 public class Cargo {
@@ -57,5 +59,9 @@ public class Cargo {
         reqRefrig = sc.nextBoolean();
         this.weight = weight;
         this.requireRefrigeratedTransport = reqRefrig;
+    }
+
+    public String toCsv(){
+        return this.weight + "," + this.requireRefrigeratedTransport + ","+ route.toCsv();
     }
 }

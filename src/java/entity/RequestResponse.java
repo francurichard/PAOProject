@@ -1,4 +1,4 @@
-import java.util.UUID;
+package entity;
 
 public class RequestResponse {
     private String uuid;

@@ -1,3 +1,5 @@
+package entity;
+
 import java.util.Scanner;
 
 public class Truck {
@@ -42,5 +44,9 @@ public class Truck {
         System.out.println("Manufacturing year:");
         setManufacturingYear(sc.nextInt());
         sc.nextLine();
+    }
+
+    public String toCsv() {
+        return this.registrationNumber + "," + this.manufacturingYear;
     }
 }
