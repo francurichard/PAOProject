@@ -1,3 +1,6 @@
 city1,city2,distance
 Bucuresti,Bacau,300.0
 Bucuresti,Ploiesti,80.0
+Bucuresti,Brasov,130.0
+Bacau,Brasov,200.0
+Timisoara,Bucuresti,300.0
